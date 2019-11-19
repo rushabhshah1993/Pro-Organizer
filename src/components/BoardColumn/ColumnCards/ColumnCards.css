@@ -1,0 +1,4 @@
+.ColumnCards {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,10 @@
+.Board {
+    width: 100%;
+}
+
+.BoardTitle {
+    font-size: 20px;
+    color: #0079bf;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
