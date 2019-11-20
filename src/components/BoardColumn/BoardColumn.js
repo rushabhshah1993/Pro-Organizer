@@ -8,7 +8,7 @@ class BoardColumn extends Component {
     render() {
         return (
             <div className={styles.BoardColumn}>
-                <p className={styles.BoardColumnTitle}>Column 1</p>
+                <p className={styles.BoardColumnTitle}>{this.props.title || 'Column 1'}</p>
                 <ColumnCards cardClicked={this.props.cardClicked} />
                 <div className={styles.AddCard}>Add a card</div>
             </div>

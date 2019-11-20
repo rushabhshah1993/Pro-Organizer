@@ -7,10 +7,14 @@ import { boardData } from './../../data';
 
 class Boards extends Component {
     render() {
-        console.log(boardData);
         let boards = boardData.allBoards.map(boards => {
-            console.log(boards);
-            return <Link to={`/board/${boards.id}`}><div className={styles.BoardCard}>{boards.name}</div></Link>
+            return (
+                <Link to={`/board/${boards.id}`} key={boards.id}>
+                    <div className={styles.BoardCard}>
+                        {boards.name}
+                    </div>
+                </Link>
+            )
         })
 
         return (

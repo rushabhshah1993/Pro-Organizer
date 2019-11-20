@@ -37,7 +37,7 @@ export const boardData = {
                     description: 'We will be creating a login page which has the ability to take a user\'s name and password and check with database for authentication.',
                     members: ['RS', 'JT'],
                     due_date: 1607020200000,
-                    column: 'Backlog'
+                    column: 'backlog'
                 },
                 {
                     id: 1,
