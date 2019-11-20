@@ -12,7 +12,7 @@ function App() {
   let routes = (
     <Switch>
       <Route path="/createboard" component={CreateBoard}></Route>
-      <Route path="/board" component={Board}></Route>
+      <Route path="/board/:boardId" component={Board}></Route>
       <Route path="/" component={Boards}></Route>
       <Redirect to="/" />
     </Switch>

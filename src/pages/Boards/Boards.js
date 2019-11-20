@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import boardStyles from './../Board/Board.css';
 import styles from './Boards.css';
 
+import { boardData } from './../../data';
+
 class Boards extends Component {
     render() {
+        console.log(boardData);
+        let boards = boardData.allBoards.map(boards => {
+            console.log(boards);
+            return <Link to={`/board/${boards.id}`}><div className={styles.BoardCard}>{boards.name}</div></Link>
+        })
+
         return (
             <div>
                 <p className={boardStyles.BoardTitle}>Boards</p>
@@ -11,6 +20,7 @@ class Boards extends Component {
                     <div className={styles.BoardCard}>Board</div>
                     <div className={styles.BoardCard}>Board</div>
                     <div className={styles.BoardCard}>Board</div>
+                    {boards}
                 </div>
             </div>
         )
