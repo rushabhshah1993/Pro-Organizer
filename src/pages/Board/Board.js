@@ -28,7 +28,12 @@ class Board extends Component {
                 <div className={styles.Board}>
                     {this.state.showModal ? <Modal content={<CardInfo />} close={this.closeModalHandler} /> : null}
                     <p className={styles.BoardTitle}>Board</p>
-                    <BoardColumn cardClicked={this.cardClickHandler} />
+                    <div className={styles.ColumnsContainer}>
+                        <BoardColumn cardClicked={this.cardClickHandler} />
+                        <BoardColumn cardClicked={this.cardClickHandler} />
+                        <BoardColumn cardClicked={this.cardClickHandler} />
+                        <div className={styles.AddColumn}>Add a column</div>
+                    </div>
                 </div>
             </>
         )

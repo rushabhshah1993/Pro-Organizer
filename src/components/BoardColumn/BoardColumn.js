@@ -10,6 +10,7 @@ class BoardColumn extends Component {
             <div className={styles.BoardColumn}>
                 <p className={styles.BoardColumnTitle}>Column 1</p>
                 <ColumnCards cardClicked={this.props.cardClicked} />
+                <div className={styles.AddCard}>Add a card</div>
             </div>
         )
     }
