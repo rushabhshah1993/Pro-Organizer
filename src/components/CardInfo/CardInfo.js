@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
 import styles from './CardInfo.css';
+import columnCardStyles from './../BoardColumn/ColumnCards/ColumnCard/ColumnCard.css';
 
 import Members from './../Members/Members';
 
 class CardInfo extends Component {
     render() {
+        let members = this.props.data.card[0].members.map(member => {
+            return <Members member={member} key={member} />
+        })
+        let receivedDate = new Date(this.props.data.card[0].due_date);
+        let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let date = receivedDate.getDate() + ' ' + months[receivedDate.getMonth()] + ', ' +  receivedDate.getFullYear();
         return (
             <div className={styles.CardInfo}>
                 <div className={styles.Header}>
-                    <p className={styles.CardInfoTitle}>Title</p>
-                    <p className={styles.CardInfoSubTitle}>in subtitle</p>
+                    <p className={styles.CardInfoTitle}>{this.props.data.card[0].title}</p>
+                    <p className={styles.CardInfoSubTitle}>in {this.props.data.column[0].name}</p>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Description</label>
-                    <div className={styles.Description}>sdjkashdkjsah dsnakjdnsak dbsjkdhasjk cjkashdjksancjkasbncjksan cj sajccjsandjksandksa c askc sajkdnkdnsakcnsajknckjsa njksahdjksahjkdn dsbajkdbnas ckjdbsajkndkjsa  bdjksabndkjwn.</div>
+                    <div className={styles.Description}>{this.props.data.card[0].description}</div>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Members</label>
-                    <Members member={'RS'} />
+                    <div className={columnCardStyles.MembersContainer}>
+                        { members }
+                    </div>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Due Date</label>
-                    <div className={styles.Description}>24 November 2019</div>
+                    <div className={styles.Description}>{ date }</div>
                 </div>
             </div>
         )

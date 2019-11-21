@@ -12,7 +12,7 @@ class ColumnCard extends Component {
         })
 
         return (
-            <div className={styles.ColumnCard} onClick={this.props.cardClicked}>
+            <div className={styles.ColumnCard} onClick={() => this.props.cardClicked({card_id: this.props.data.id, board_id: this.props.data.board_id})}>
                 <p className={styles.ColumnCardTitle}>{this.props.data.title}</p>
                 <div className={styles.ColumnCardFooter}>
                     {

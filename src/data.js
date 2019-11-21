@@ -37,7 +37,8 @@ export const boardData = {
                     description: 'We will be creating a login page which has the ability to take a user\'s name and password and check with database for authentication.',
                     members: ['RS', 'JT'],
                     due_date: 1607020200000,
-                    column: 'backlog'
+                    column: 'backlog',
+                    board_id: 'board1'
                 },
                 {
                     id: 1,
@@ -46,7 +47,8 @@ export const boardData = {
                     description: 'We will add a navigation bar to the page.',
                     members: ['SB'],
                     due_date: 1607020200000,
-                    column: 'backlog'
+                    column: 'backlog',
+                    board_id: 'board1'
                 },
                 {
                     id: 2,
@@ -55,7 +57,8 @@ export const boardData = {
                     description: null,
                     members: ['JT'],
                     due_date: 1607020200000,
-                    column: 'in_progress'
+                    column: 'in_progress',
+                    board_id: 'board1'
                 },
                 {
                     id: 3,
@@ -64,7 +67,8 @@ export const boardData = {
                     description: null,
                     members: ['RS', 'JT'],
                     due_date: 1607020200000,
-                    column: 'done'
+                    column: 'done',
+                    board_id: 'board1'
                 }
             ],
             id: 'board1'

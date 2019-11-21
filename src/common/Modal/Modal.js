@@ -10,7 +10,6 @@ class Modal extends Component {
                 <Backdrop />
                 <span className={styles.Close} onClick={this.props.close}>X</span>
                 <div className={styles.Modal}>
-                    <h2>{this.props.title}</h2>
                     {this.props.content}
                 </div>
             </div>
