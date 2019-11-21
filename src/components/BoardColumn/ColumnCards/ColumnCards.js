@@ -6,11 +6,12 @@ import ColumnCard from './ColumnCard/ColumnCard';
 
 class ColumnCards extends Component {
     render() {
+        let cards = this.props.cardsData.map(card => {
+            return <ColumnCard cardClicked={this.props.cardClicked} data={card} key={card.id} />
+        });
         return (
             <div className={styles.ColumnCards}>
-                <ColumnCard cardClicked={this.props.cardClicked} />
-                <ColumnCard cardClicked={this.props.cardClicked} />
-                <ColumnCard cardClicked={this.props.cardClicked} />
+                { cards }
             </div>
         )
     }

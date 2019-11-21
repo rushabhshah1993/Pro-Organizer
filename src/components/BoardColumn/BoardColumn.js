@@ -9,7 +9,7 @@ class BoardColumn extends Component {
         return (
             <div className={styles.BoardColumn}>
                 <p className={styles.BoardColumnTitle}>{this.props.title || 'Column 1'}</p>
-                <ColumnCards cardClicked={this.props.cardClicked} />
+                <ColumnCards cardClicked={this.props.cardClicked} cardsData={this.props.columnData} />
                 <div className={styles.AddCard}>Add a card</div>
             </div>
         )

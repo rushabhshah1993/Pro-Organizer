@@ -5,6 +5,7 @@
     border-radius: 5px;
     margin-right: 10px;
     flex: none;
+    height: fit-content;
 }
 
 .BoardColumnTitle {
