@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import styles from './Board.css';
 
 import BoardColumn from './../../components/BoardColumn/BoardColumn';
 import Modal from './../../common/Modal/Modal';
 import CardInfo from './../../components/CardInfo/CardInfo';
-
-import { boardData } from './../../data';
 
 class Board extends Component {
     state = {
@@ -14,11 +13,12 @@ class Board extends Component {
     }
 
     cardClickHandler = (card_details) => {
-        let cardData = boardData.boards[card_details.board_id].cards.filter(card => {
+        let boardData = this.props.location.state.boardData;
+        let cardData = boardData.cards.filter(card => {
             return card.id === card_details.card_id;
         });
         let selectedCardData = {};
-        let columnData = boardData.boards[card_details.board_id].columns.filter(column => {
+        let columnData = boardData.columns.filter(column => {
             return column.id === cardData[0].column;
         })
         selectedCardData.card = cardData;
@@ -37,8 +37,7 @@ class Board extends Component {
     }
 
     render() {
-        let boardId = this.props.match.params.boardId;
-        let dataOfBoard = boardData.boards[boardId];
+        let dataOfBoard = this.props.location.state.boardData;
         let columns = dataOfBoard.columns.map(column => {
             let columnData = dataOfBoard.cards.filter(card => {
                 return card.column === column.id;
@@ -62,4 +61,4 @@ class Board extends Component {
     }
 }
 
-export default Board;
+export default withRouter(Board);
