@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import boardStyles from './../Board/Board.css';
 import styles from './Boards.css';
 
-import { boardData } from './../../data';
 import Axios from 'axios';
 
 class Boards extends Component {
@@ -33,12 +32,12 @@ class Boards extends Component {
         let boards = null;
 
         Object.keys(this.state.boardData).length > 0 ?
-        boards = boardData.allBoards.map(boards => {
+        boards = this.state.boardData.allBoards.map(boards => {
             return (
                 <Link 
                     to={{
                         pathname: `/board/${boards.id}`,
-                        state: {boardData: boardData.boards[boards.id]}
+                        state: {boardData: this.state.boardData.boards[boards.id]}
                     }} 
                     key={boards.id}>
                     <div className={styles.BoardCard}>

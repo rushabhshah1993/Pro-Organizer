@@ -50,7 +50,7 @@ class Board extends Component {
             <>
                 <div className={styles.Board}>
                     {this.state.showModal ? <Modal content={cardInfo} close={this.closeModalHandler} /> : null}
-                    <p className={styles.BoardTitle}>Board</p>
+                    <p className={styles.BoardTitle}>{this.props.location.state.boardData.name} Board</p>
                     <div className={styles.ColumnsContainer}>
                         {columns}
                         <div className={styles.AddColumn}>Add a column</div>
