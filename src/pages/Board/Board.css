@@ -15,6 +15,7 @@
     flex-direction: row;
     overflow-x: scroll;
     width: auto;
+    height: 100vh;
 }
 
 .AddColumn {
@@ -27,4 +28,6 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    height: 200px;
+    flex-shrink: 0;
 }

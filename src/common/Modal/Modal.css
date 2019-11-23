@@ -14,7 +14,7 @@
 }
 
 .Modal {
-    height: 350px;
+    height: auto;
     padding: 10px;
     position: fixed;
     background-color: #fff;
