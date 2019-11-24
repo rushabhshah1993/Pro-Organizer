@@ -23,7 +23,7 @@ class Boards extends Component {
             .catch(error => {
                 console.log(error);
                 this.setState({
-                    serverError: error
+                    serverError: true
                 })
             });
     }
@@ -31,29 +31,32 @@ class Boards extends Component {
     render() {
         let boards = null;
 
-        Object.keys(this.state.boardData).length > 0 ?
-        boards = this.state.boardData.allBoards.map(boards => {
-            return (
-                <Link 
-                    to={{
-                        pathname: `/board/${boards.id}`,
-                        state: {boardData: this.state.boardData.boards[boards.id]}
-                    }} 
-                    key={boards.id}>
-                    <div className={styles.BoardCard}>
-                        {boards.name}
-                    </div>
-                </Link>
-            )
-        }) :
-        boards = <div className={styles.Loading}>Loading...</div>
+        if(this.state.serverError === false) {
+            Object.keys(this.state.boardData).length > 0 ?
+            boards = this.state.boardData.allBoards.map(boards => {
+                return (
+                    <Link 
+                        to={{
+                            pathname: `/board/${boards.id}`,
+                            state: {boardData: this.state.boardData.boards[boards.id]}
+                        }} 
+                        key={boards.id}>
+                        <div className={styles.BoardCard}>
+                            {boards.name}
+                        </div>
+                    </Link>
+                )
+            }) :
+            boards = <div className={styles.Loading}>Loading...</div>
+        } else {
+            boards = <p>There seems to be a server error. Please try again later.</p>;
+        }
 
         return (
             <div>
                 <p className={boardStyles.BoardTitle}>Boards</p>
                 <div className={styles.Boards}>
                     {boards}
-                    {this.state.serverError ? <p>There seems to be a server error. Please try again later.</p> : null}
                 </div>
             </div>
         )
