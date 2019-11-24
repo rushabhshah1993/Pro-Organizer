@@ -5,11 +5,13 @@ import styles from './Board.css';
 import BoardColumn from './../../components/BoardColumn/BoardColumn';
 import Modal from './../../common/Modal/Modal';
 import CardInfo from './../../components/CardInfo/CardInfo';
+import AddCard from './../../components/AddCard/AddCard';
 
 class Board extends Component {
     state = {
         showModal: false,
-        selectedCardData: {}
+        selectedCardData: {},
+        showAddCardModal: false
     }
 
     cardClickHandler = (card_details) => {
@@ -36,13 +38,19 @@ class Board extends Component {
         })
     }
 
+    addCardHandler = (event) => {
+        this.setState({
+            showAddCardModal: true
+        })
+    }
+
     render() {
         let dataOfBoard = this.props.location.state.boardData;
         let columns = dataOfBoard.columns.map(column => {
             let columnData = dataOfBoard.cards.filter(card => {
                 return card.column === column.id;
             })
-            return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} />
+            return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} />
         })
         let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} /> : null;
 
@@ -50,6 +58,7 @@ class Board extends Component {
             <>
                 <div className={styles.Board}>
                     {this.state.showModal ? <Modal content={cardInfo} close={this.closeModalHandler} /> : null}
+                    {this.state.showAddCardModal ? <Modal content={<AddCard />} /> : null}
                     <p className={styles.BoardTitle}>{this.props.location.state.boardData.name} Board</p>
                     <div className={styles.ColumnsContainer}>
                         {columns}
