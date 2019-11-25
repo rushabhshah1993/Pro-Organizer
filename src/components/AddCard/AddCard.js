@@ -15,9 +15,9 @@ class AddCard extends Component {
                 id: 'title'
             },
             {
-                type: 'text',
+                type: 'select',
                 placeholder: 'Choose members for this task',
-                label: 'Choose members for this task',
+                label: 'Choose members for this task (select multiple, if needed)',
                 id: 'members'
             },
             {
@@ -37,7 +37,7 @@ class AddCard extends Component {
 
     render() {
         let formElements = this.state.formElements.map(element => {
-            return <FormElements element={element} key={element.id} />
+            return <FormElements element={element} key={element.id} options={element.id === 'members' && this.props.members} />
         })
 
         return (

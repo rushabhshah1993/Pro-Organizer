@@ -20,3 +20,14 @@ input {
 input:focus {
     border: 1px solid #aaa;
 }
+
+.Select {
+    height: 80px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.Select option {
+    height: 20px;
+}
