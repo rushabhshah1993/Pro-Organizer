@@ -38,10 +38,14 @@ class Board extends Component {
         })
     }
 
-    addCardHandler = (event) => {
+    addCardHandler = () => {
         this.setState({
             showAddCardModal: true
         })
+    }
+
+    addCardToDBHandler = (event) => {
+        console.log(event.target);
     }
 
     render() {
@@ -58,7 +62,7 @@ class Board extends Component {
             <>
                 <div className={styles.Board}>
                     {this.state.showModal ? <Modal content={cardInfo} close={this.closeModalHandler} /> : null}
-                    {this.state.showAddCardModal ? <Modal content={<AddCard members={this.props.location.state.boardData.members} />} /> : null}
+                    {this.state.showAddCardModal ? <Modal content={<AddCard members={this.props.location.state.boardData.members} addCard={this.addCardToDBHandler} />} /> : null}
                     <p className={styles.BoardTitle}>{this.props.location.state.boardData.name} Board</p>
                     <div className={styles.ColumnsContainer}>
                         {columns}
