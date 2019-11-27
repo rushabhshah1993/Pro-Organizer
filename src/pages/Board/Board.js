@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import styles from './Board.css';
+import createBoardStyles from './../CreateBoard/CreateBoard.css';
 
 import BoardColumn from './../../components/BoardColumn/BoardColumn';
 import Modal from './../../common/Modal/Modal';
 import CardInfo from './../../components/CardInfo/CardInfo';
 import AddCard from './../../components/AddCard/AddCard';
+import { toSnakeCase } from './../../utility';
 import Axios from 'axios';
 
 class Board extends Component {
+    constructor(props) {
+        super(props);
+        this.addColumnRef = React.createRef()
+    }
+
     state = {
         showModal: false,
         selectedCardData: {},
         showAddCardModal: false,
         addCardToColumnID: null,
-        boardData: {}
+        boardData: {},
+        showAddColumnModal: false
     }
 
     componentDidMount() {
@@ -59,6 +67,12 @@ class Board extends Component {
         })
     }
 
+    closeAddColumnModalHandler = () => {
+        this.setState({
+            showAddColumnModal: false
+        })
+    }
+
     addCardHandler = (column_id) => {
         this.setState({
             showAddCardModal: true,
@@ -82,10 +96,32 @@ class Board extends Component {
                     addCardToColumnID: null,
                 })
             })
-            .catch(error => {
-                console.log(error);
-            })
+            .catch(error => {console.log(error);}) 
+    }
+
+    addColumnHandler = () => {
+        this.setState({
+            showAddColumnModal: true
+        })
+    }
+
+    addColumnToDBHandler = () => {
+        let column_name = this.addColumnRef.current.value;
+        let column_id = toSnakeCase(column_name);
+        let newColumn = {
+            id: column_id,
+            name: column_name
+        }
+        let columns = this.state.boardData.columns;
+        columns.push(newColumn);
         
+        Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/columns.json', columns)
+            .then(response => {
+                this.setState({
+                    showAddColumnModal: false
+                })
+            })
+            .catch(error => {console.log(error)});
     }
 
     render() {
@@ -113,10 +149,26 @@ class Board extends Component {
                         /> : 
                         null
                     }
+                    {
+                        this.state.showAddColumnModal ? 
+                        <Modal 
+                            content={
+                                <>
+                                    <p className={styles.BoardTitle}>Add column</p>
+                                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <p>Enter a column name:</p>
+                                        <input type='text' ref={this.addColumnRef} style={{width: '100%'}} />
+                                    </div>
+                                    <button className={createBoardStyles.CreateButton} style={{width: 'auto', float: 'right'}} onClick={this.addColumnToDBHandler}>Add Column</button>
+                                </>
+                            }
+                            close={this.closeAddColumnModalHandler}
+                        /> :
+                        null}
                     <p className={styles.BoardTitle}>{this.state.boardData.name} Board</p>
                     <div className={styles.ColumnsContainer}>
                         {columns}
-                        <div className={styles.AddColumn}>Add a column</div>
+                        <div className={styles.AddColumn} onClick={this.addColumnHandler}>Add a column</div>
                     </div>
                 </>
             )
