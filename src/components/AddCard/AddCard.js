@@ -36,11 +36,17 @@ class AddCard extends Component {
                 id: 'due_date',
                 value: null
             }
-        ]
+        ],
+        incompleteForm: false
     }
 
-    addCardHandler = (event) => {
-        console.log(event.target.previousSibling());
+    addCardHandler = () => {
+        let values = {};
+        let formElements = this.state.formElements
+        for(let key in formElements) {
+            values[formElements[key].id] = formElements[key].value;
+        }
+        this.props.addCard(values);
     }
 
     formChangeHandler = (id, value) => {

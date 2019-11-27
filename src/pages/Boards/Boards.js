@@ -37,8 +37,7 @@ class Boards extends Component {
                 return (
                     <Link 
                         to={{
-                            pathname: `/board/${boards.id}`,
-                            state: {boardData: this.state.boardData.boards[boards.id]}
+                            pathname: `/board/${boards.id}`
                         }} 
                         key={boards.id}>
                         <div className={styles.BoardCard}>
