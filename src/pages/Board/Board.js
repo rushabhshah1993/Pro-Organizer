@@ -112,13 +112,16 @@ class Board extends Component {
             id: column_id,
             name: column_name
         }
-        let columns = this.state.boardData.columns;
+        let columns = this.state.boardData.columns || [];
         columns.push(newColumn);
+        let boardData = {...this.state.boardData};
+        boardData.columns = columns;
         
         Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/columns.json', columns)
             .then(response => {
                 this.setState({
-                    showAddColumnModal: false
+                    showAddColumnModal: false,
+                    boardData: boardData
                 })
             })
             .catch(error => {console.log(error)});
@@ -127,7 +130,8 @@ class Board extends Component {
     render() {
         let content = null;
         if(Object.keys(this.state.boardData).length > 0) {
-            let dataOfBoard = this.state.boardData;
+            let dataOfBoard = {...this.state.boardData};
+            dataOfBoard.cards = dataOfBoard.cards || [];
             let columns = null;
             if(dataOfBoard.columns !== undefined) {
                 columns = dataOfBoard.columns.map(column => {
