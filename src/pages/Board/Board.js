@@ -127,13 +127,16 @@ class Board extends Component {
     render() {
         let content = null;
         if(Object.keys(this.state.boardData).length > 0) {
-            let dataOfBoard = this.state.boardData
-            let columns = dataOfBoard.columns.map(column => {
-                let columnData = dataOfBoard.cards.filter(card => {
-                    return card.column === column.id;
+            let dataOfBoard = this.state.boardData;
+            let columns = null;
+            if(dataOfBoard.columns !== undefined) {
+                columns = dataOfBoard.columns.map(column => {
+                    let columnData = dataOfBoard.cards.filter(card => {
+                        return card.column === column.id;
+                    })
+                    return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} />
                 })
-                return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} />
-            })
+            }  
             let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} /> : null;
 
             content = (
