@@ -84,16 +84,21 @@ class Board extends Component {
         values['due_date'] = values['due_date'] !== null ? new Date(values['due_date']).getTime() : null;
         values['board_id'] = this.state.boardData.id;
         values['column'] = this.state.addCardToColumnID;
-        values['id'] = this.state.boardData.cards.splice(-1)[0].id + 1;
+        values['id'] = this.state.boardData.cards ? this.state.boardData.cards.splice(-1)[0].id + 1 : 0;
 
-        let cards = this.state.boardData.cards;
+        let cards = this.state.boardData.cards || [];
         cards.push(values);
+
+        let boardData = {...this.state.boardData};
+        boardData.cards = cards;
+
         let url = 'https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/cards.json';
         Axios.put(url, cards)
             .then(response => {
                 this.setState({
                     showAddCardModal: false,
                     addCardToColumnID: null,
+                    boardData: boardData
                 })
             })
             .catch(error => {console.log(error);}) 
