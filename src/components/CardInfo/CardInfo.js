@@ -15,7 +15,7 @@ class CardInfo extends Component {
             })
         }
         let date = 'Deadline not set';
-        if(this.props.data.card[0].due_date !== undefined) {
+        if(this.props.data.card[0].due_date !== undefined && this.props.data.card[0].due_date !== null) {
             let receivedDate = new Date(this.props.data.card[0].due_date);
             let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             date = receivedDate.getDate() + ' ' + months[receivedDate.getMonth()] + ', ' +  receivedDate.getFullYear();
@@ -27,7 +27,7 @@ class CardInfo extends Component {
                         <p className={styles.CardInfoTitle}>{this.props.data.card[0].title}</p>
                         <p className={styles.CardInfoSubTitle}>in {this.props.data.column[0].name}</p>
                     </div>
-                    <button className={createBoardStyles.CreateButton} onClick={this.props.editCard}>Edit</button>
+                    <button className={createBoardStyles.CreateButton} onClick={() => this.props.editCard(this.props.data.column[0].id)}>Edit</button>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Description</label>

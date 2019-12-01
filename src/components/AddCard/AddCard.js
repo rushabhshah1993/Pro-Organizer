@@ -37,11 +37,12 @@ class AddCard extends Component {
                 value: null
             }
         ],
-        incompleteForm: false
+        incompleteForm: false,
+        updateStateWithProps: false
     }
 
     static getDerivedStateFromProps = (props, state) =>  {
-        if(props.editCard) {
+        if(props.editCard && !state.updateStateWithProps) {
             let formElements = [...state.formElements];
             let cardData = props.cardData.card[0];
             for(let element of formElements) {
@@ -55,6 +56,7 @@ class AddCard extends Component {
 
             }
             state.formElements = formElements;
+            state.updateStateWithProps = true;
         }
         return state;
     }
@@ -69,25 +71,20 @@ class AddCard extends Component {
     }
 
     formChangeHandler = (id, value) => {
-        // console.log(id, value, this.state);
-        let updatedFormElements = this.state.formElements.map(ele => {
-            // debugger;
+        let updatedFormElements = [...this.state.formElements].map(ele => {
             if(ele.id === id) {
                 ele.value = value;
-                // console.log(ele.value);
                 return ele;
             } else {
                 return ele;
             }
         })
-        // console.log(updatedFormElements);
         this.setState({
             formElements: updatedFormElements
         })
     }
 
     render() {
-        // console.log(this.state);
         let formElements = this.state.formElements.map(element => {
             const ref = React.createRef();
             return <FormElements element={element} reference={ref} key={element.id} options={element.id === 'members' && this.props.members} changed={this.formChangeHandler} />
@@ -95,9 +92,9 @@ class AddCard extends Component {
 
         return (
             <div className={styles.AddCard}>
-                <p className={boardStyles.BoardTitle}>Add Card</p>
+                <p className={boardStyles.BoardTitle}>{this.props.editCard ? 'Edit Card' : 'Add Card'}</p>
                 { formElements }
-                <button className={createBoardStyles.CreateButton} onClick={this.addCardHandler}>Add Card</button>
+                <button className={createBoardStyles.CreateButton} onClick={this.addCardHandler}>{this.props.editCard ? 'Edit Card' : 'Add Card'}</button>
             </div>
         )
     }

@@ -81,6 +81,24 @@ class Board extends Component {
         })
     }
 
+    addEditedCardToDBHandler = (values) => {
+        let id = this.state.selectedCardData.card[0].id;
+        let boardData = {...this.state.boardData};
+        let cardData = boardData.cards.filter(card => {return card.id === id});
+        for(let key in values) {
+            cardData[0][key] = values[key];
+        }
+        let url = 'https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+boardData.id+'.json';
+        Axios.put(url, boardData)
+            .then(response => {
+                this.setState({
+                    boardData: boardData,
+                    showEditModal: false
+                })
+            })
+            .catch(error => {console.log(error)});
+    }
+
     addCardToDBHandler = (values) => {
         values['due_date'] = values['due_date'] !== null ? new Date(values['due_date']).getTime() : null;
         values['board_id'] = this.state.boardData.id;
@@ -133,10 +151,11 @@ class Board extends Component {
             .catch(error => {console.log(error)});
     }
 
-    editCardHandler = () => {
+    editCardHandler = (column_id) => {
         this.setState({
             showEditModal: true,
-            showModal: false
+            showModal: false,
+            addCardToColumnID: column_id
         })
     }
 
@@ -179,7 +198,7 @@ class Board extends Component {
                         this.state.showEditModal ?
                         <Modal 
                             content={
-                                <AddCard members={this.state.boardData.members} addCard={this.addCardToDBHandler} editCard={true} cardData={this.state.selectedCardData} />
+                                <AddCard members={this.state.boardData.members} addCard={this.addEditedCardToDBHandler} editCard={true} cardData={this.state.selectedCardData} />
                             } 
                             close={this.closeEditModalHandler} 
                         /> : 

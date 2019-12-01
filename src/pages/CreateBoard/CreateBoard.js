@@ -106,7 +106,7 @@ class CreateBoard extends Component {
     }
 
     changeHandler = (id, value) => {
-        let formElements = {...this.state.formElements};
+        let formElements = [...this.state.formElements];
         for(let element in formElements) {
             if(formElements[element].id === id) {
                 if(id === 'team') {
@@ -115,6 +115,9 @@ class CreateBoard extends Component {
                 formElements[element].value = value;
             }
         }
+        this.setState({
+            formElements: formElements
+        })
     }
 
 
