@@ -7,12 +7,19 @@ import Members from './../Members/Members';
 
 class CardInfo extends Component {
     render() {
-        let members = this.props.data.card[0].members.map(member => {
-            return <Members member={member} key={member} />
-        })
-        let receivedDate = new Date(this.props.data.card[0].due_date);
-        let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        let date = receivedDate.getDate() + ' ' + months[receivedDate.getMonth()] + ', ' +  receivedDate.getFullYear();
+        let members = null;
+
+        if(this.props.data.card[0].members !== undefined && this.props.data.card[0].members !== null) {
+            members = this.props.data.card[0].members !== undefined && this.props.data.card[0].members.map(member => {
+                return <Members member={member} key={member} />
+            })
+        }
+        let date = 'Deadline not set';
+        if(this.props.data.card[0].due_date !== undefined) {
+            let receivedDate = new Date(this.props.data.card[0].due_date);
+            let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            date = receivedDate.getDate() + ' ' + months[receivedDate.getMonth()] + ', ' +  receivedDate.getFullYear();
+        }
         return (
             <div className={styles.CardInfo}>
                 <div className={styles.Header}>
