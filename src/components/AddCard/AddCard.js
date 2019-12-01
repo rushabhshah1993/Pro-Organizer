@@ -40,6 +40,25 @@ class AddCard extends Component {
         incompleteForm: false
     }
 
+    static getDerivedStateFromProps = (props, state) =>  {
+        if(props.editCard) {
+            let formElements = [...state.formElements];
+            let cardData = props.cardData.card[0];
+            for(let element of formElements) {
+                if(element.id === 'due_date') {
+                    let date = new Date(cardData[element.id]);
+                    let finalDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+                    element.value = finalDate;
+                } else {
+                    element.value = cardData[element.id];
+                }
+
+            }
+            state.formElements = formElements;
+        }
+        return state;
+    }
+
     addCardHandler = () => {
         let values = {};
         let formElements = this.state.formElements
@@ -50,20 +69,25 @@ class AddCard extends Component {
     }
 
     formChangeHandler = (id, value) => {
+        // console.log(id, value, this.state);
         let updatedFormElements = this.state.formElements.map(ele => {
+            // debugger;
             if(ele.id === id) {
                 ele.value = value;
+                // console.log(ele.value);
                 return ele;
             } else {
                 return ele;
             }
         })
+        // console.log(updatedFormElements);
         this.setState({
             formElements: updatedFormElements
         })
     }
 
     render() {
+        // console.log(this.state);
         let formElements = this.state.formElements.map(element => {
             const ref = React.createRef();
             return <FormElements element={element} reference={ref} key={element.id} options={element.id === 'members' && this.props.members} changed={this.formChangeHandler} />

@@ -3,6 +3,23 @@ import React, { Component } from 'react';
 import styles from './FormElements.css';
 
 class FormElements extends Component {
+    state = {
+        defaultValueSelect: []
+    }
+
+    static getDerivedStateFromProps = (props, state) => {
+        if(props.element.type === 'select' && props.element.value !== null) {
+            let selectedOptions = [];
+            for(let option in props.options) {
+                if(props.element.value.indexOf(props.options[option].initials) > -1) {
+                    selectedOptions.push(props.options[option].initials);
+                }
+            }
+            state.defaultValueSelect = selectedOptions;
+        }
+        return state;
+    }
+
     changeHandler = (event) => {
         if(event.target.type === 'select-multiple') {
             var options = event.target.options;
@@ -22,7 +39,7 @@ class FormElements extends Component {
         let options = null;
         if(this.props.element.type === 'select') {
             options = this.props.options.map(option => {
-                return <option key={option.id}>{option.initials} - {option.name}</option>
+                return <option key={option.id} value={option.initials}>{option.initials} - {option.name}</option>
             })
         }
 
@@ -32,11 +49,11 @@ class FormElements extends Component {
                 {
                     this.props.element.type === 'select' ?
                     (
-                        <select className={styles.Select} multiple onChange={this.changeHandler} id={this.props.element.id}>
+                        <select className={styles.Select} multiple onChange={this.changeHandler} id={this.props.element.id} value={this.state.defaultValueSelect}>
                             {options}
                         </select>
                     ) :
-                    <input type={this.props.element.type} placeholder={this.props.element.placeholder} ref={this.props.reference} onChange={this.changeHandler} id={this.props.element.id} />
+                    <input type={this.props.element.type} placeholder={this.props.element.placeholder} ref={this.props.reference} onChange={this.changeHandler} id={this.props.element.id} value={this.props.element.value || ''} />
                 }
             </div>
         )

@@ -22,7 +22,8 @@ class Board extends Component {
         showAddCardModal: false,
         addCardToColumnID: null,
         boardData: {},
-        showAddColumnModal: false
+        showAddColumnModal: false,
+        showEditModal: false
     }
 
     componentDidMount() {
@@ -84,8 +85,8 @@ class Board extends Component {
         values['due_date'] = values['due_date'] !== null ? new Date(values['due_date']).getTime() : null;
         values['board_id'] = this.state.boardData.id;
         values['column'] = this.state.addCardToColumnID;
-        values['id'] = this.state.boardData.cards ? this.state.boardData.cards.splice(-1)[0].id + 1 : 0;
-
+        values['id'] = this.state.boardData.cards ? this.state.boardData.cards.slice(-1)[0].id + 1 : 0;
+        
         let cards = this.state.boardData.cards || [];
         cards.push(values);
 
@@ -132,6 +133,19 @@ class Board extends Component {
             .catch(error => {console.log(error)});
     }
 
+    editCardHandler = () => {
+        this.setState({
+            showEditModal: true,
+            showModal: false
+        })
+    }
+
+    closeEditModalHandler = () => {
+        this.setState({
+            showEditModal: false,
+        })
+    }
+
     render() {
         let content = null;
         if(Object.keys(this.state.boardData).length > 0) {
@@ -146,7 +160,7 @@ class Board extends Component {
                     return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} />
                 })
             }  
-            let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} /> : null;
+            let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} editCard={this.editCardHandler} /> : null;
 
             content = (
                 <>
@@ -158,6 +172,16 @@ class Board extends Component {
                                 <AddCard members={this.state.boardData.members} addCard={this.addCardToDBHandler} />
                             } 
                             close={this.closeAddCardModalHandler} 
+                        /> : 
+                        null
+                    }
+                    {
+                        this.state.showEditModal ?
+                        <Modal 
+                            content={
+                                <AddCard members={this.state.boardData.members} addCard={this.addCardToDBHandler} editCard={true} cardData={this.state.selectedCardData} />
+                            } 
+                            close={this.closeEditModalHandler} 
                         /> : 
                         null
                     }

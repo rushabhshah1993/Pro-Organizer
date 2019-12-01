@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './CardInfo.css';
 import columnCardStyles from './../BoardColumn/ColumnCards/ColumnCard/ColumnCard.css';
+import createBoardStyles from './../../pages/CreateBoard/CreateBoard.css';
 
 import Members from './../Members/Members';
 
@@ -15,8 +16,11 @@ class CardInfo extends Component {
         return (
             <div className={styles.CardInfo}>
                 <div className={styles.Header}>
-                    <p className={styles.CardInfoTitle}>{this.props.data.card[0].title}</p>
-                    <p className={styles.CardInfoSubTitle}>in {this.props.data.column[0].name}</p>
+                    <div className={styles.TitleContainer}>
+                        <p className={styles.CardInfoTitle}>{this.props.data.card[0].title}</p>
+                        <p className={styles.CardInfoSubTitle}>in {this.props.data.column[0].name}</p>
+                    </div>
+                    <button className={createBoardStyles.CreateButton} onClick={this.props.editCard}>Edit</button>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Description</label>
