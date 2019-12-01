@@ -8,7 +8,7 @@ class FormElements extends Component {
     }
 
     static getDerivedStateFromProps = (props, state) => {
-        if(props.element.type === 'select' && props.element.value !== null) {
+        if(props.element.type === 'select' && props.element.value !== null && props.element.value !== undefined) {
             let selectedOptions = [];
             for(let option in props.options) {
                 if(props.element.value.indexOf(props.options[option].initials) > -1) {
