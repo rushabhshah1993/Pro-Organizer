@@ -165,6 +165,27 @@ class Board extends Component {
         })
     }
 
+    droppedCardHandler = (received_card, receiving_column) => {
+        let boardData = {...this.state.boardData};
+        let cards = [...this.state.boardData.cards];
+        let updatedCards = cards.filter(card => {
+            if(card.id === received_card.id) {
+                card.column = receiving_column;
+                return card;
+            } else {
+                return card;
+            }
+        });
+        boardData.cards = updatedCards;
+        Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/cards.json', updatedCards)
+            .then(response => {
+                this.setState({
+                    boardData: boardData
+                })
+            })
+            .catch(error => {console.log(error)});
+    }
+
     render() {
         let content = null;
         if(Object.keys(this.state.boardData).length > 0) {
@@ -176,7 +197,7 @@ class Board extends Component {
                     let columnData = dataOfBoard.cards.filter(card => {
                         return card.column === column.id;
                     })
-                    return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} />
+                    return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} droppedCard={(card, column) => this.droppedCardHandler(card, column)} />
                 })
             }  
             let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} editCard={this.editCardHandler} /> : null;
