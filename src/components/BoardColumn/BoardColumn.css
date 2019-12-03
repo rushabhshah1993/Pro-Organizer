@@ -23,3 +23,12 @@
     justify-content: center;
     cursor: pointer;
 }
+
+.BoardColumnHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.DeleteIcon {
+    cursor: pointer;
+}

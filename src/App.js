@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faList } from '@fortawesome/free-solid-svg-icons';
+import { faList, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import './App.css';
 
@@ -10,7 +10,7 @@ import CreateBoard from './../src/pages/CreateBoard/CreateBoard';
 import Layout from './../src/pages/Layout/Layout';
 import Board from '../src/pages/Board/Board';
 
-library.add(faList);
+library.add(faList, faTrashAlt);
 
 function App() {
   let routes = (

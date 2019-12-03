@@ -199,6 +199,27 @@ class Board extends Component {
             .catch(error => {console.log(error);})
     }
 
+    deleteColumnHandler = (column_id) => {
+        let boardData = {...this.state.boardData};
+        let cards = boardData.cards;
+        let columns = boardData.columns;
+        let updatedCards = cards.filter(card => {
+            return card.column !== column_id;
+        })
+        let updatedColumns = columns.filter(column => {
+            return column.id !== column_id;
+        })
+        boardData.cards = updatedCards;
+        boardData.columns = updatedColumns;
+        Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'.json', boardData)
+            .then(response => {
+                this.setState({
+                    boardData: boardData
+                })
+            })
+            .catch(error => {console.log(error);})
+    }
+
     closeEditModalHandler = () => {
         this.setState({
             showEditModal: false,
@@ -237,7 +258,18 @@ class Board extends Component {
                     let columnData = dataOfBoard.cards.filter(card => {
                         return card.column === column.id;
                     })
-                    return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} droppedCard={(card, column) => this.droppedCardHandler(card, column)} />
+                    return ( 
+                        <BoardColumn 
+                            title={column.name} 
+                            id={column.id} 
+                            columnData={columnData} 
+                            key={column.id} 
+                            cardClicked={this.cardClickHandler} 
+                            addCard={this.addCardHandler} 
+                            droppedCard={(card, column) => this.droppedCardHandler(card, column)} 
+                            deleteColumn={(column_id) =>  this.deleteColumnHandler(column_id)}
+                        />
+                    )
                 })
             }  
             let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} editCard={this.editCardHandler} archiveCard={this.archiveCardHandler} /> : null;
