@@ -23,7 +23,8 @@ class Board extends Component {
         addCardToColumnID: null,
         boardData: {},
         showAddColumnModal: false,
-        showEditModal: false
+        showEditModal: false,
+        archivedCards: []
     }
 
     componentDidMount() {
@@ -35,6 +36,18 @@ class Board extends Component {
                 })
             })
             .catch(error => {console.log(error)});
+
+        Axios.get('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/archivedBoards.json')
+            .then(response => {
+                let archivedCards = [];
+                if(response.data !== null) {
+                    archivedCards = response.data;
+                }
+                this.setState({
+                    archivedCards: archivedCards
+                })
+            })
+            .catch(error => {console.log(error);})
     }
 
     cardClickHandler = (card_details) => {
@@ -159,6 +172,33 @@ class Board extends Component {
         })
     }
 
+    archiveCardHandler = (archived_card) => {
+        let archivedCards = [...this.state.archivedCards];
+        archivedCards.push(archived_card);
+
+        let boardData = {...this.state.boardData};
+        let cards = boardData.cards;
+        let updatedCards = cards.filter(card => {return card.id !== archived_card.id;})
+        boardData.cards = updatedCards;
+        
+        Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/archivedCards.json', archivedCards)
+            .then(response => {
+                this.setState({
+                    archivedCards: archivedCards,
+                    showModal: false
+                })
+
+                Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/cards.json', updatedCards)
+                    .then(response => {
+                        this.setState({
+                            boardData: boardData
+                        })
+                    })
+                    .catch(error => {console.log(error);})
+            })
+            .catch(error => {console.log(error);})
+    }
+
     closeEditModalHandler = () => {
         this.setState({
             showEditModal: false,
@@ -200,7 +240,7 @@ class Board extends Component {
                     return <BoardColumn title={column.name} id={column.id} columnData={columnData} key={column.id} cardClicked={this.cardClickHandler} addCard={this.addCardHandler} droppedCard={(card, column) => this.droppedCardHandler(card, column)} />
                 })
             }  
-            let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} editCard={this.editCardHandler} /> : null;
+            let cardInfo = Object.keys(this.state.selectedCardData).length > 0 ? <CardInfo data={this.state.selectedCardData} editCard={this.editCardHandler} archiveCard={this.archiveCardHandler} /> : null;
 
             content = (
                 <>

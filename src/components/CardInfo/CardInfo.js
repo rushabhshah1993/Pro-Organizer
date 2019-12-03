@@ -27,7 +27,10 @@ class CardInfo extends Component {
                         <p className={styles.CardInfoTitle}>{this.props.data.card[0].title}</p>
                         <p className={styles.CardInfoSubTitle}>in {this.props.data.column[0].name}</p>
                     </div>
-                    <button className={createBoardStyles.CreateButton} onClick={() => this.props.editCard(this.props.data.column[0].id)}>Edit</button>
+                    <div>
+                        <button className={createBoardStyles.CreateButton} onClick={() => this.props.editCard(this.props.data.column[0].id)}>Edit</button>
+                        <button className={createBoardStyles.CreateButton} style={{backgroundColor: 'red'}} onClick={() => this.props.archiveCard(this.props.data.card[0])}>Archive</button>
+                    </div>
                 </div>
                 <div className={styles.Container}>
                     <label className={styles.Label}>Description</label>
