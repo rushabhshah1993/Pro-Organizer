@@ -220,6 +220,30 @@ class Board extends Component {
             .catch(error => {console.log(error);})
     }
 
+    deleteBoardHandler = () => {
+        Axios.get('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn.json')
+            .then(response => {
+                let appData = {...response.data};
+                let allBoards = appData.allBoards;
+                let boards = appData.boards;
+                let updatedAllBoards = allBoards.filter(board => {
+                    return board.id !== this.state.boardData.id;
+                })
+                let updatedBoards = Object.keys(boards).filter(board => {
+                    return board !== this.state.boardData.id;
+                })
+                appData.allBoards = updatedAllBoards;
+                appData.boards = updatedBoards;
+                
+                Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn.json', appData)
+                    .then(response => {
+                        this.props.history.push('/');
+                    })
+                    .catch(error => {console.log(error);})
+            })
+            .catch(error => {console.log(error);})
+    }
+
     closeEditModalHandler = () => {
         this.setState({
             showEditModal: false,
@@ -313,7 +337,10 @@ class Board extends Component {
                             close={this.closeAddColumnModalHandler}
                         /> :
                         null}
-                    <p className={styles.BoardTitle}>{this.state.boardData.name} Board</p>
+                    <div className={styles.BoardHeader}>
+                        <p className={styles.BoardTitle}>{this.state.boardData.name} Board</p>
+                        <button className={createBoardStyles.CreateButton} style={{backgroundColor: 'red', width: 'auto'}} onClick={this.deleteBoardHandler}>Delete Board</button>
+                    </div>
                     <div className={styles.ColumnsContainer}>
                         {columns}
                         <div className={styles.AddColumn} onClick={this.addColumnHandler}>Add a column</div>

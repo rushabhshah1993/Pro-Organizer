@@ -31,3 +31,8 @@
     height: 200px;
     flex-shrink: 0;
 }
+
+.BoardHeader {
+    display: flex;
+    justify-content: space-between;
+}
