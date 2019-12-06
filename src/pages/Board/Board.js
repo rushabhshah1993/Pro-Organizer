@@ -154,11 +154,16 @@ class Board extends Component {
         let boardData = {...this.state.boardData};
         boardData.columns = columns;
         
+        this.setState({
+            addColumnLoading: true
+        })
+
         Axios.put('https://pro-organizer-f83b5.firebaseio.com/boardData/-LuM4blPg67eyvzgAzwn/boards/'+this.state.boardData.id+'/columns.json', columns)
             .then(response => {
                 this.setState({
                     showAddColumnModal: false,
-                    boardData: boardData
+                    boardData: boardData,
+                    addColumnLoading: false
                 })
             })
             .catch(error => {console.log(error)});
@@ -229,9 +234,12 @@ class Board extends Component {
                 let updatedAllBoards = allBoards.filter(board => {
                     return board.id !== this.state.boardData.id;
                 })
-                let updatedBoards = Object.keys(boards).filter(board => {
-                    return board !== this.state.boardData.id;
-                })
+                let updatedBoards = {};
+                for(let board of Object.keys(boards)) {
+                    if(board !== this.state.boardData.id) {
+                        updatedBoards[board] = boards[board];
+                    }
+                }
                 appData.allBoards = updatedAllBoards;
                 appData.boards = updatedBoards;
                 
@@ -325,6 +333,8 @@ class Board extends Component {
                         this.state.showAddColumnModal ? 
                         <Modal 
                             content={
+                                this.state.addColumnLoading ?
+                                <span>Creating your column...</span> :
                                 <>
                                     <p className={styles.BoardTitle}>Add column</p>
                                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
